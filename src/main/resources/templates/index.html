@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>学生技术社区</title>
+    <title>柠檬社区</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-theme.css">
+    <link rel="stylesheet" href="css/community.css">
     <script src="js/bootstrap.js"></script>
 </head>
 <body>
@@ -25,14 +26,18 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <form class="navbar-form navbar-left">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="搜索问题">
+                    <label>
+                        <input type="text" class="form-control" placeholder="搜索问题">
+                    </label>
                 </div>
                 <button type="submit" class="btn btn-default">搜索</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">登录</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我 <span class="caret"></span></a>
+                <li th:if="${session.user==null}"><a href="https://gitee.com/oauth/authorize?client_id=e349cd3311ee6063fd50c5c97d7aec40d0d72747306e4b36d9f4707e419a32d2&redirect_uri=http://localhost:8887/callback&response_type=code">登录</a></li>
+                <li class="dropdown" th:if="${session.user!=null}">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <img th:src="${session.user.getAvatarUrl()}" class="img"></span>
+                        </span> <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">消息中心</a></li>
                         <li><a href="#">个人资料</a></li>
