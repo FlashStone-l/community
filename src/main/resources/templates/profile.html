@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta name="referrer" content="no-referrer"/>
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title th:text="${sectionName}"></title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body class="body">
+<div th:insert="~{navigation ::nav }"></div>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span th:text="${sectionName}"></span></h2>
+            <hr>
+            <div class="media" th:each="question: ${questionDto}">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object img-circle picset" th:src="${question.user.avatarUrl}">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">
+                        <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
+                    </h4>
+                    <span th:text="${question.description}"></span><br>
+                    <span style="font-size: 12px ;font-weight:normal ;color: #999;"><span
+                            th:text="${question.commentCount}"></span>个回复 <span th:text="${question.viewCount}"></span>次浏览
+                            <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
+                    </span>
+                </div>
+
+            </div>
+            <nav aria-label="...">
+                <ul class="pager">
+                    <li id="first"><a href="/?page=1">First</a> </li>
+                    <li id="previous" th:if="${currentPage}==${lastPage}"><a >Previous</a></li>
+                    <li id="currentPage"><span th:text="${currentPage}"></span></li>/<li id="lastPage"><span th:text="${lastPage}"></span></li>
+                    <li id="next" th:if="${currentPage}!=${lastPage}"><a >Next</a></li>
+                    <li id="last"><a th:href="@{'/?page='+${lastPage}}">Last</a> </li>
+                </ul>
+            </nav>
+
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="list-group personal">
+                <a href="/profile/questions"
+                   th:class="${section=='questions'}? 'active list-group-item' : 'list-group-item' ">
+                    我的问题
+
+                </a>
+                <a href="/profile/replies"
+                   th:class="${section=='replies'}? 'active list-group-item' : 'list-group-item' ">
+                    最新回复
+                    <span class="badge">14</span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

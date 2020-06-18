@@ -2,51 +2,77 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>柠檬社区</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-theme.css">
-    <link rel="stylesheet" href="css/community.css">
-    <script src="js/bootstrap.js"></script>
-</head>
-<body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">首页</a>
-        </div>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/jquery-3.4.1.min.js" type="application/javascript"></script>
+    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="js/index.js"></script>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <form class="navbar-form navbar-left">
-                <div class="form-group">
-                    <label>
-                        <input type="text" class="form-control" placeholder="搜索问题">
-                    </label>
+
+</head>
+<body class="body">
+<div th:insert="navigation::nav"></div>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现 </h2>
+            <hr>
+            <div class="media" th:each="question:${questionDtoList}">
+                <div class="media-left">
+                    <a href="#">
+                        <img th:src="${question.user.avatarUrl}" class="media-object img-circle picset">
+                    </a>
                 </div>
-                <button type="submit" class="btn btn-default">搜索</button>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li th:if="${session.user==null}"><a href="https://gitee.com/oauth/authorize?client_id=e349cd3311ee6063fd50c5c97d7aec40d0d72747306e4b36d9f4707e419a32d2&redirect_uri=http://localhost:8887/callback&response_type=code">登录</a></li>
-                <li class="dropdown" th:if="${session.user!=null}">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img th:src="${session.user.getAvatarUrl()}" class="img"></span>
-                        </span> <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">消息中心</a></li>
-                        <li><a href="#">个人资料</a></li>
-                        <li><a href="#">退出登录</a></li>
-                    </ul>
-                </li>
+                <div class="media-body">
+                    <h4 class="media-heading">
+                        <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
+                    </h4>
+                    <span th:text="${question.user.name}"></span>|发起了问题|
+                    <span th:text="${question.likeCount}"></span>个<span> <i class="fa fa-thumbs-up"></i></span>
+                <span th:text="${question.commentCount}"></span>个回复|
+                <span th:text="${question.viewCount}"></span>个浏览
+                <span class="pull-right" th:text="${#dates.format(question.gmtCreate, 'yyyy-MM-dd')}"></span>
+                </div>
+            </div>
+            <nav aria-label="...">
+                <ul class="pager">
+                    <li id="first"><a href="/?page=1">First</a></li>
+                    <li id="previous" th:if="${currentPage}==${lastPage}"><a>Previous</a></li>
+                    <li id="currentPage"><span th:text="${currentPage}"></span></li>
+                    /
+                    <li id="lastPage"><span th:text="${lastPage}"></span></li>
+                    <li id="next" th:if="${currentPage}!=${lastPage}"><a>Next</a></li>
+                    <li id="last"><a th:href="@{'/?page='+${lastPage}}">Last</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <h3 style="margin-top: 30px">热门话题</h3>
+            <hr>
+            <ul th:each="question:${questionDtoList}">
+                <li><a th:href="@{'question/'+${question.id}}" th:text="${question.title}"></a></li>
             </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
+            <hr>
+            <h6>发帖达人</h6>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                <div class="media" th:each="question:${questionDtoList}">
+
+
+                            <img  class="media-object img-circle picset" th:src="${question.user.avatarUrl}" >
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
