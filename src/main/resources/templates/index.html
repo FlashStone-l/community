@@ -11,8 +11,10 @@
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="layui/css/layui.css">
     <script src="js/jquery-3.4.1.min.js" type="application/javascript"></script>
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="layui/layui.js"></script>
     <script src="js/index.js"></script>
 
 
@@ -36,9 +38,9 @@
                     </h4>
                     <span th:text="${question.user.name}"></span>|发起了问题|
                     <span th:text="${question.likeCount}"></span>个<span> <i class="fa fa-thumbs-up"></i></span>
-                <span th:text="${question.commentCount}"></span>个回复|
-                <span th:text="${question.viewCount}"></span>个浏览
-                <span class="pull-right" th:text="${#dates.format(question.gmtCreate, 'yyyy-MM-dd')}"></span>
+                    <span th:text="${question.commentCount}"></span>个回复|
+                    <span th:text="${question.viewCount}"></span>个浏览
+                    <span class="pull-right" th:text="${#dates.format(question.gmtCreate, 'yyyy-MM-dd')}"></span>
                 </div>
             </div>
             <nav aria-label="...">
@@ -54,22 +56,22 @@
             </nav>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            <h3 style="margin-top: 30px">热门话题</h3>
+            <h3 style="margin-top: 10px">热门话题</h3>
             <hr>
             <ul th:each="question:${questionDtoList}">
                 <li><a th:href="@{'question/'+${question.id}}" th:text="${question.title}"></a></li>
             </ul>
             <hr>
             <h6>发帖达人</h6>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-                <div class="media" th:each="question:${questionDtoList}">
 
-
-                            <img  class="media-object img-circle picset" th:src="${question.user.avatarUrl}" >
-
-
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                    <table>
+                        <tr >
+                            <td   th:each="user:${users}"><img  style="margin-right: 8px" class="media-object img-circle picset" th:src="${user.avatarUrl}"></td>
+                        </tr>
+                    </table>
                 </div>
-            </div>
+
         </div>
     </div>
 </div>

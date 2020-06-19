@@ -9,7 +9,6 @@ import com.test.community.model.Comment;
 import com.test.community.model.Question;
 import com.test.community.model.User;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,7 +34,7 @@ public class QuestionService {
             //获取点赞数
             //未处理
 
-            User user = userMapper.findByCreator(question.getCreator());
+            User user = userMapper.findByCreator(question.getAccountId());
             QuestionDto questionDto=new QuestionDto();
             BeanUtils.copyProperties(question,questionDto);
             questionDto.setUser(user);
@@ -60,7 +59,7 @@ public class QuestionService {
     //返回问题页面的作者信息
     public QuestionDto getQuestionDto(Integer id) {
         Question question = questionMapper.findQuestion(id);
-        User user = userMapper.findByCreator(question.getCreator());
+        User user = userMapper.findByCreator(question.getAccountId());
         QuestionDto questionDto=new QuestionDto();
         BeanUtils.copyProperties(question,questionDto);
         questionDto.setUser(user);
@@ -86,7 +85,7 @@ public class QuestionService {
         List<QuestionDto> questionDtoList=new ArrayList<>();
         List<Question> questions=questionMapper.findByCreator(id,index,LIMIT);
         for(Question question:questions){
-            User user=userMapper.findByCreator(question.getCreator());
+            User user=userMapper.findByCreator(question.getAccountId());
             QuestionDto questionDto=new QuestionDto();
             BeanUtils.copyProperties(question,questionDto);
             questionDto.setUser(user);
@@ -102,5 +101,15 @@ public class QuestionService {
         }else{
             return page/LIMIT+1;
         }
+    }
+
+    public List<User> userList() {
+        List<User> userList=new ArrayList<>();
+        List<User> users=questionMapper.findUsers();
+        for(User user:users){
+            user=userMapper.findByCreator(user.getAccountId());
+            userList.add(user);
+        }
+        return userList;
     }
 }

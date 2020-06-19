@@ -1,6 +1,7 @@
 package com.test.community.controller;
 
 import com.test.community.Dto.QuestionDto;
+import com.test.community.model.User;
 import com.test.community.service.QuestionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,8 +40,10 @@ public class IndexController {
         if (page > lastPage) {
             return "redirect:/";
         }
-
-
+        //发帖达人
+        List<User> users=questionService.userList();
+        model.addAttribute("users",users);
+        //返回发现列表的问题和作者
         model.addAttribute("questionDtoList", questionDtoList);
 
         return "index";

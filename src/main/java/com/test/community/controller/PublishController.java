@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
 public class PublishController {
     //注入QuestionMapper
-    @Autowired
+   @Resource
     private QuestionMapper questionMapper;
     @GetMapping("/publish")
     public String publish(){
@@ -37,8 +38,8 @@ public class PublishController {
         question.setTitle(title);
         HttpSession session = request.getSession();
         User user =(User) session.getAttribute("user");
-        question.setCreator(user.getAccountId());
-        question.setGmtCreate(user.getGmtCreate());
+        question.setAccountId(user.getAccountId());
+        question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(user.getGmtModified());
         System.out.println(user.getAccountId());
         questionMapper.create(question);

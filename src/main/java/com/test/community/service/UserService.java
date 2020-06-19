@@ -25,6 +25,7 @@ public class UserService {
             userMapper.insert(user);
         }else{
             //如果已有用户，更新用户
+
             user.setGmtModified(System.currentTimeMillis());
             user.setToken(user.getToken());
             userMapper.updateUser(user);

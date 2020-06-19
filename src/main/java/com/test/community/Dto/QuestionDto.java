@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class QuestionDto {
     private Integer id;
-    private Long creator;
+    private Long accountId;
     private Long gmtCreate;
     private Long gmtModified;
     private Integer commentCount;

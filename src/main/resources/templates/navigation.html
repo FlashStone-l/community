@@ -30,7 +30,16 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li th:if="${session.user!=null}"><a href="/publish" style="margin-top: 10px">提问</a></li>
                     <li th:if="${session.user==null}">
-                        <a href="https://gitee.com/oauth/authorize?client_id=e349cd3311ee6063fd50c5c97d7aec40d0d72747306e4b36d9f4707e419a32d2&redirect_uri=http://localhost:8887/callback&response_type=code">登录</a>
+                        <!--qq登录-->
+                        <img src="img/qq.jpg" style="width: 40px;border-radius: 50%;display: inline-block">
+                        <a href="/loginByQQ" style="display: inline-block"> qq登录</a>
+
+                    </li>
+                    <li th:if="${session.user==null}">
+                        <img src="img/gitee.png" style="width: 150px;display: inline-block">
+                        <a  style="display: inline-block" href="https://gitee.com/oauth/authorize?client_id=e349cd3311ee6063fd50c5c97d7aec40d0d72747306e4b36d9f4707e419a32d2&redirect_uri=http://localhost:8887/callback&response_type=code">
+                            码云登录
+                        </a>
                     </li>
 
                     <li class="dropdown" th:if="${session.user!=null}">
